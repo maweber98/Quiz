@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Bella's quiz</title>
+<style>
+div#test{ border:#5AB029 3px solid; padding:10px 40px 40px 40px; background-color:#E5FCE3; width:50%;}
+</style>
+<script type="text/javascript">
+// Position of where the user is in the test or which question they are on
+var pos = 0, test, test_status, question, choice, choices, chA, chB, chC, correct = 0;
+// Array with to hold questions and answerss
+var questions = [
+  ["Phillip was killed at his daughters wedding and his son _________ replaced him as king", "Alexander", "Phalanx", "Euclid", "A"],
+  ["How old was Alexander when he became the leader", "33", "45", "20", "C"],
+  ["Sculptures and painters in Ancient Greece studied the ___________ and tried to make their art look perfect.", "Landscape", "Stars", "Human Body", "C"],
+  ["Phalanx is a group of warriors who stood close togehter in a  __________", "Square", "Circle", "Triangle", "A"]
+  ];
+// Function to get element by getElementById
+function get(x){
+  return document.getElementById(x);
+}
+function renderQuestion(){
+  test = get("test");
+  if(pos >= questions.length){
+    test.innerHTML = "<h2>You got "+correct+" of "+questions.length+" questions correct</h2><br><br><h3>Love you Bella. Have a great day at school!</h3>";
+    get("test_status").innerHTML = "Test completed";
+    // Resets the variable to allow user to restart the test
+    pos = 0;
+    correct = 0;
+    // Stops the rest of renderQuestion function from running when test is completed
+    return false;
+  }
+  get("test_status").innerHTML = "Question "+(pos+1)+" of "+questions.length;
+  question = questions[pos][0];
+  chA = questions[pos][1];
+  chB = questions[pos][2];
+  chC = questions[pos][3];
+  test.innerHTML = "<h3>"+question+"</h3>";
+  // The += appends data  to the line above
+  test.innerHTML += "<input type='radio' name='choices' value='A'> "+chA+"<br>";
+  test.innerHTML += "<input type='radio' name='choices' value='B'> "+chB+"<br>";
+  test.innerHTML += "<input type='radio' name='choices' value='C'> "+chC+"<br><br>";
+  test.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
+}
+function checkAnswer(){
+  // Uses getElementsByName to loop through the array
+  choices = document.getElementsByName("choices");
+  for(var i=0; i<choices.length; i++){
+    if(choices[i].checked){
+      choice = choices[i].value;
+    }
+  }
+  // Checks if answer matches the correct choice
+  if(choice == questions[pos][4]){
+    // Each time there is a correct answer the value increases
+    correct++;
+  }
+  // Changes position of the character user is on
+  pos++;
+  // Use renderQuestion function to go to the next question
+  renderQuestion();
+}
+window.addEventListener("load", renderQuestion, false);
+</script>
+</head>
+<body>
+<h2>Good Morning - Bella Capri</h2>
+<h2 id="test_status"></h2>
+<div id="test"></div>
+<img src="https://raw.githubusercontent.com/maweber98/new-test-website/master/Pusheen.jpg" width="50%"/>
+</body>
+</html>
